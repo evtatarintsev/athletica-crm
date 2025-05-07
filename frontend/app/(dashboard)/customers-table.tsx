@@ -1,28 +1,14 @@
 'use client';
 
-import {
-    TableHead,
-    TableRow,
-    TableHeader,
-    TableBody,
-    Table
-} from '@/components/ui/table';
-import {Badge} from '@/components/ui/badge';
+import {Table, TableBody, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {useState} from 'react';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card';
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Product} from './product';
 import {IProduct} from '@/lib/db';
 import {useRouter} from 'next/navigation';
-import {ChevronLeft, ChevronRight} from 'lucide-react';
-import {Button} from '@/components/ui/button';
-import {Chip, Stack} from "@mui/material";
+import {ChevronLeft, ChevronRight, File} from 'lucide-react';
+import {Button, Chip, Stack} from "@mui/material";
+import FileDownload from '@mui/icons-material/FileDownload';
 
 type StatusFilter = 'all' | 'active' | 'inactive' | 'archived';
 
@@ -56,20 +42,21 @@ export function CustomersTable({
             <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Клиенты</CardTitle>
                 <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="hidden md:block">Export</Button>
-                    <Button size="sm" className="hidden md:block">Create</Button>
+                    <Button variant="outlined" size="small" className="hidden md:block">
+                        <FileDownload className="h-3.5 w-3.5"/>
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Выгрузить</span>
+                    </Button>
+                    <Button size="small" className="hidden md:block">Create</Button>
                 </div>
             </CardHeader>
             <CardContent>
                 <Stack direction="row" spacing={1}>
-                    <Chip label="Основной" />
-                    <Chip label="Отключенный" disabled />
-                    <Chip label="Кликабельный" onClick={() => alert('Chip нажат!')} />
-                    <Chip
-                        label="Удаляемый"
-                        onDelete={() => alert('Chip удален!')}
-                    />
-                    <Chip label="Кликабельный Удаляемый" onClick={() => alert('Chip нажат!')} onDelete={() => alert('Chip удален!')} />
+                    <Chip label="Основной"/>
+                    <Chip label="Отключенный" disabled/>
+                    <Chip label="Кликабельный" onClick={() => {
+                    }}/>
+                    <Chip label="Удаляемый" onDelete={() => {
+                    }}/>
                 </Stack>
 
                 <Table>
@@ -95,7 +82,7 @@ export function CustomersTable({
                             .filter(product => activeFilter === 'all' || product.status === activeFilter)
                             .map((product) => (
                                 <Product key={product.id} product={product}/>
-                        ))}
+                            ))}
                     </TableBody>
                 </Table>
             </CardContent>
@@ -111,9 +98,10 @@ export function CustomersTable({
                     <div className="flex">
                         <Button
                             formAction={prevPage}
-                            variant="ghost"
-                            size="sm"
+                            variant="text"
+                            size="small"
                             type="submit"
+                            className="hover:bg-accent hover:text-accent-foreground"
                             disabled={offset === productsPerPage}
                         >
                             <ChevronLeft className="mr-2 h-4 w-4"/>
@@ -121,9 +109,10 @@ export function CustomersTable({
                         </Button>
                         <Button
                             formAction={nextPage}
-                            variant="ghost"
-                            size="sm"
+                            variant="text"
+                            size="small"
                             type="submit"
+                            className="hover:bg-accent hover:text-accent-foreground"
                             disabled={offset + productsPerPage > totalProducts}
                         >
                             Вперед

@@ -1,9 +1,8 @@
 import {getProducts} from "@/lib/db";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {Button} from "@/components/ui/button";
-import {File, PlusCircle} from "lucide-react";
 import {CustomersTable} from "../customers-table";
-
+import {Button} from "@mui/material";
+import FileDownload from '@mui/icons-material/FileDownload';
 
 export default async function CustomersPage(
     props: {
@@ -29,13 +28,9 @@ export default async function CustomersPage(
                     </TabsTrigger>
                 </TabsList>
                 <div className="ml-auto flex items-center gap-2">
-                    <Button size="sm" variant="outline" className="h-8 gap-1">
-                        <File className="h-3.5 w-3.5"/>
+                    <Button size="small" variant="outlined">
+                        <FileDownload sx={{height: '14px', width: '14px'}}/>
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Выгрузить</span>
-                    </Button>
-                    <Button size="sm" className="h-8 gap-1">
-                        <PlusCircle className="h-3.5 w-3.5"/>
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Добавить</span>
                     </Button>
                 </div>
             </div>
