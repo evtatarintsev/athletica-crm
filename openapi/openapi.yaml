@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Athletica CRM API
+  description: API для взаимодействия с приложением AthleticaCRM
+  version: 0.0.1
+  contact:
+    name: Татаринцев Евгений
+    email: evtatarintsev@ya.ru
+
+paths:
+  /user-settings:
+    description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
+    get:
+      description: Получить настройки по ключу.
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "name"
+      responses:
+        '200':
+          description: User setting retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSetting'
+components:
+  schemas:
+    UserSetting:
+      type: object
+      properties:
+        key:
+          type: string
+          example: "name"
+        value:
+          type: object
+          example: { }
+      required:
+        - key
+        - value

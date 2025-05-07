@@ -8,7 +8,9 @@ import {IProduct} from '@/lib/db';
 import {useRouter} from 'next/navigation';
 import {ChevronLeft, ChevronRight, File} from 'lucide-react';
 import {Button, Chip, Stack} from "@mui/material";
-import FileDownload from '@mui/icons-material/FileDownload';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AddIcon from '@mui/icons-material/Add';
+import {SearchInput} from "./search";
 
 type StatusFilter = 'all' | 'active' | 'inactive' | 'archived';
 
@@ -43,21 +45,27 @@ export function CustomersTable({
                 <CardTitle>Клиенты</CardTitle>
                 <div className="flex gap-2">
                     <Button variant="outlined" size="small" className="hidden md:block">
-                        <FileDownload className="h-3.5 w-3.5"/>
+                        <FileDownloadIcon className="h-3.5 w-3.5"/>
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Выгрузить</span>
                     </Button>
                     <Button variant="outlined" size="small" className="hidden md:block">Create</Button>
                 </div>
             </CardHeader>
             <CardContent>
-                <Stack direction="row" spacing={1}>
-                    <Chip label="Основной"/>
-                    <Chip label="Отключенный" disabled/>
-                    <Chip label="Кликабельный" onClick={() => {
-                    }}/>
-                    <Chip label="Удаляемый" onDelete={() => {
-                    }}/>
-                </Stack>
+                <div className="flex justify-between items-center">
+                    <Stack direction="row" spacing={1}>
+                        <Chip label="Основной"/>
+                        <Chip label="Отключенный" disabled/>
+                        <Chip label="Кликабельный" onClick={() => {
+                        }}/>
+                        <Chip label="Удаляемый" onDelete={() => {
+                        }}/>
+                        <Chip label="Фильтр" icon={<AddIcon/>}/>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <SearchInput/>
+                    </Stack>
+                </div>
 
                 <Table>
                     <TableHeader>
