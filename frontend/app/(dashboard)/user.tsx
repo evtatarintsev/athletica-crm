@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import {Button} from "@mui/material";
 
 export async function User() {
   let session =null
@@ -18,8 +18,8 @@ export async function User() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          size="icon"
+          variant="outlined"
+          size="small"
           className="overflow-hidden rounded-full"
         >
           <Image

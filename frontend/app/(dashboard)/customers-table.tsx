@@ -46,7 +46,7 @@ export function CustomersTable({
                         <FileDownload className="h-3.5 w-3.5"/>
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Выгрузить</span>
                     </Button>
-                    <Button size="small" className="hidden md:block">Create</Button>
+                    <Button variant="outlined" size="small" className="hidden md:block">Create</Button>
                 </div>
             </CardHeader>
             <CardContent>

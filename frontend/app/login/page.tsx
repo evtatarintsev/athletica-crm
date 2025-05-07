@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardDescription,
@@ -6,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import {Button} from "@mui/material";
 
 
 export default function LoginPage() {

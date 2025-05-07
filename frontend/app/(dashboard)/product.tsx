@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,7 @@ import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { IProduct } from '@/lib/db';
 import { deleteCustomer } from './actions';
+import Button from '@mui/material/Button';
 
 export function Product({ product }: { product: IProduct}) {
   return (
@@ -39,7 +39,7 @@ export function Product({ product }: { product: IProduct}) {
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
+            <Button aria-haspopup="true" size="small" variant="outlined">
               <MoreHorizontal className="h-4 w-4" />
               <span className="sr-only">Toggle menu</span>
             </Button>
