@@ -16,17 +16,17 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Product } from './product';
-import { SelectProduct } from '@/lib/db';
+import { IProduct } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function ProductsTable({
+export function CustomersTable({
   products,
   offset,
   totalProducts
 }: {
-  products: SelectProduct[];
+  products: IProduct[];
   offset: number;
   totalProducts: number;
 }) {
@@ -44,10 +44,7 @@ export function ProductsTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Products</CardTitle>
-        <CardDescription>
-          Manage your products and view their sales performance.
-        </CardDescription>
+        <CardTitle>Клиенты</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -56,15 +53,15 @@ export function ProductsTable({
               <TableHead className="hidden w-[100px] sm:table-cell">
                 <span className="sr-only">Image</span>
               </TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">Price</TableHead>
+              <TableHead>Имя</TableHead>
+              <TableHead>Статус</TableHead>
+              <TableHead className="hidden md:table-cell">Баланс</TableHead>
               <TableHead className="hidden md:table-cell">
-                Total Sales
+                Группа
               </TableHead>
-              <TableHead className="hidden md:table-cell">Created at</TableHead>
+              <TableHead className="hidden md:table-cell">ДР</TableHead>
               <TableHead>
-                <span className="sr-only">Actions</span>
+                <span className="sr-only">Действия</span>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -78,11 +75,11 @@ export function ProductsTable({
       <CardFooter>
         <form className="flex items-center w-full justify-between">
           <div className="text-xs text-muted-foreground">
-            Showing{' '}
+            Показано{' '}
             <strong>
               {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
             </strong>{' '}
-            of <strong>{totalProducts}</strong> products
+            из <strong>{totalProducts}</strong> клиентов
           </div>
           <div className="flex">
             <Button
@@ -93,7 +90,7 @@ export function ProductsTable({
               disabled={offset === productsPerPage}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
-              Prev
+              Назад
             </Button>
             <Button
               formAction={nextPage}
@@ -102,7 +99,7 @@ export function ProductsTable({
               type="submit"
               disabled={offset + productsPerPage > totalProducts}
             >
-              Next
+              Вперед
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </div>

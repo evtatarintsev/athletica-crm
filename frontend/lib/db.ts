@@ -71,7 +71,3 @@ export async function getProducts(
     totalProducts: 5
   };
 }
-
-export async function deleteProductById(id: number) {
-
-}
