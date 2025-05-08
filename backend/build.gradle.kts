@@ -20,12 +20,13 @@ repositories {
 	mavenCentral()
 }
 val exposedVersion: String by project
+val kotlinxCoroutinesVersion: String by project
 dependencies {
 	implementation("ch.qos.logback:logback-classic:1.5.18")
 
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
 	// exposed deps
 	implementation("org.jetbrains.exposed:exposed-core:${exposedVersion}")
 	implementation("org.jetbrains.exposed:exposed-json:${exposedVersion}")
@@ -37,6 +38,7 @@ dependencies {
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion") // Замените версию, если необходимо
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:postgresql:1.21.0")

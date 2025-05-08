@@ -1,13 +1,16 @@
 package ru.athletica.crm.modules.customers
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import org.jetbrains.exposed.sql.selectAll
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import ru.athletica.crm.db.suspendTransaction
 import kotlin.test.Test
-import org.testcontainers.junit.jupiter.Testcontainers;
+import kotlin.test.assertEquals
 
 @Testcontainers
 @SpringBootTest
@@ -27,7 +30,21 @@ class CustomerTest {
     }
 
     @Test
-    fun `Сохранение клиента работает`() = runBlocking {
-        Customer(CustomerId(), "Ivan".toCustomerName()).save()
+    fun `Сохранение клиента работает1`() = runTest {
+        suspendTransaction {
+            // Act
+            val customer = Customer(CustomerId(), "Ivan".toCustomerName())
+
+            // Act
+            customer.save()
+
+            // Assert
+            val record = CustomersSqlTable
+                .select(CustomersSqlTable.fullName)
+                .where { CustomersSqlTable.id.eq(customer.id.value) }
+                .first()
+
+            assertEquals(record[CustomersSqlTable.fullName], customer.fullName.value)
+        }
     }
 }

@@ -1,16 +1,14 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package ru.athletica.crm.modules.customers
 
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
+
 
 @JvmInline
-value class CustomerId(private val value: Uuid){
-    constructor() : this(Uuid.random())
+value class CustomerId(val value: UUID){
+    constructor() : this(UUID.randomUUID())
 }
 
 @JvmInline
-value class CustomerName(private val value: String)
+value class CustomerName(val value: String)
 
 fun String.toCustomerName() = CustomerName(this)

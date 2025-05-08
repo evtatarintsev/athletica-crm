@@ -1,18 +1,17 @@
 package ru.athletica.crm.modules.customers
 
 import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
+import ru.athletica.crm.db.suspendTransaction
+
 
 class Customer(
     val id: CustomerId,
     val fullName: CustomerName,
 ) {
-    suspend fun save(){
-        transaction {
-            CustomersSqlTable.insert {
-                it[id] = id
-                it[fullName] = fullName
-            }
+    suspend fun save(): Unit = suspendTransaction {
+        CustomersSqlTable.insert {
+            it[id] = this@Customer.id.value
+            it[fullName] = this@Customer.fullName.value
         }
     }
 }

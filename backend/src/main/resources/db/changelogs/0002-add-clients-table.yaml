@@ -5,28 +5,21 @@ databaseChangeLog:
       comment:
       changes:
         - createTable:
-            tableName: clients
+            tableName: customers
             columns:
               - column:
                   name: id
-                  type: int
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
                     unique: true
               - column:
-                  name: first_name
+                  name: full_name
                   type: varchar(50)
                   constraints:
                     nullable: false
-              - column:
-                  name: last_name
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-
 
       rollback:
         - dropTable:
-            tableName: clients
+            tableName: customers
