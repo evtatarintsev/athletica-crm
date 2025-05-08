@@ -2,6 +2,3 @@ databaseChangeLog:
   - includeAll:
       path: changelogs
       relativeToChangelogFile: true
-  - preConditions:
-      - runningAs:
-          username: crm

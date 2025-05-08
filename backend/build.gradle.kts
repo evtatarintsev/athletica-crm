@@ -31,9 +31,15 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-json:${exposedVersion}")
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:${exposedVersion}")
 	implementation("org.postgresql:postgresql:42.7.5")
+
+	implementation("org.liquibase:liquibase-core")
+
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("org.springframework.boot:spring-boot-testcontainers")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:postgresql:1.21.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
