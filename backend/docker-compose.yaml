@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres:17.4-alpine
+    environment:
+      POSTGRES_DB: athletica
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: crm
+    ports:
+      - "5436:5432"
