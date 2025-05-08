@@ -1,6 +1,7 @@
 package ru.athletica.crm.modules.customers
 
 import kotlinx.coroutines.test.runTest
+import org.jetbrains.exposed.sql.insert
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
@@ -11,9 +12,10 @@ import ru.athletica.crm.db.suspendTransaction
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+
 @Testcontainers
 @SpringBootTest
-class CustomerTest {
+class CustomersTest {
     companion object {
         @Container
         @JvmStatic
@@ -29,21 +31,20 @@ class CustomerTest {
     }
 
     @Test
-    fun `Сохранение клиента`() = runTest {
+    fun `Поиск клиента по id`() = runTest {
+        // Arrange
+        val expected = Customer(CustomerId(), "Ivan".toCustomerName())
         suspendTransaction {
-            // Act
-            val customer = Customer(CustomerId(), "Ivan".toCustomerName())
-
-            // Act
-            customer.save()
-
-            // Assert
-            val record = CustomersSqlTable
-                .select(CustomersSqlTable.fullName)
-                .where { CustomersSqlTable.id.eq(customer.id.value) }
-                .first()
-
-            assertEquals(record[CustomersSqlTable.fullName], customer.fullName.value)
+            CustomersSqlTable.insert {
+                it[id] = expected.id.value
+                it[fullName] = expected.fullName.value
+            }
         }
+
+        // Act
+        val actual = Customers().byId(expected.id)
+
+        // Assert
+        assertEquals(expected.id, actual.id)
     }
 }
