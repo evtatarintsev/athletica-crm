@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001
+      author: evtatarintsev@ya.ru
+      comment: Ничего не делает
+      changes: []
+      rollback: []

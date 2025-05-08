@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
 	kotlin("jvm") version "2.1.20"
 	kotlin("plugin.spring") version "2.1.20"
@@ -43,4 +45,34 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+// Таска создания пустого файла миграций
+tasks.register<Exec>("addChangelog") {
+	group = "help"
+	description = "Create an empty changelog file with next version."
+
+	val changelogsDir: String by project // Чтение параметра из gradle.properties
+
+	commandLine("git", "config", "--local", "user.email")
+
+	val outputStream = ByteArrayOutputStream()
+	standardOutput = outputStream
+
+	doLast {
+		val filename = project.property("changelog") as String? ?: throw IllegalArgumentException("changelog name must be provided")
+		val directory = File(changelogsDir)
+		val files = directory.listFiles()
+		val currentNumber = files?.maxOfOrNull { file -> file.name.takeWhile { it != '-' }.toInt() }
+
+		if (currentNumber != null) {
+			val template = directory.resolve("../changelog.template").readText()
+			val newVersion = (currentNumber + 1).toString().padStart(4, '0')
+			val newFile = directory.resolve("${newVersion}-$filename.yaml")
+			val user = outputStream.toString().trim()
+			newFile.writeText(String.format(template, newVersion, user))
+		} else {
+			println("The directory does not exist or is not a directory.")
+		}
+	}
 }

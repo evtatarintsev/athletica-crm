@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0002
+      author: evtatarintsev@ya.ru
+      comment:
+      changes:
+        - createTable:
+            tableName: clients
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+
+      rollback:
+        - dropTable:
+            tableName: clients

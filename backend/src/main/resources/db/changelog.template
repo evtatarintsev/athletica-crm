@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: %s
+      author: %s
+      comment:
+      changes:
+
+      rollback:
+
