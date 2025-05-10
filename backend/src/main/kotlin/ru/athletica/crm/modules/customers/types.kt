@@ -5,6 +5,9 @@ import java.util.UUID
 
 @JvmInline
 value class CustomerId(val value: UUID){
+    /**
+     * Новый случайный id клиента.
+     */
     constructor() : this(UUID.randomUUID())
 }
 
