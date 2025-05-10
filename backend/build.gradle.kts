@@ -5,6 +5,7 @@ plugins {
 	kotlin("plugin.spring") version "2.1.20"
 	id("org.springframework.boot") version "3.4.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.openapi.generator") version "7.12.0"
 }
 
 group = "ru.athletica"
@@ -22,6 +23,7 @@ repositories {
 val exposedVersion: String by project
 val kotlinxCoroutinesVersion: String by project
 dependencies {
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 	implementation("ch.qos.logback:logback-classic:1.5.18")
 
 	implementation("org.springframework.boot:spring-boot-starter")
@@ -32,6 +34,8 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-json:${exposedVersion}")
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:${exposedVersion}")
 	implementation("org.postgresql:postgresql:42.7.5")
+
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -48,6 +52,31 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
+	apiPackage.set("ru.athletica.api")
+	modelPackage.set("ru.athletica.api.schemas")
+	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
+	outputDir.set("${buildDir}/generated")
+	generatorName.set("kotlin")
+	configOptions.set(
+		mapOf(
+			"dateLibrary" to "kotlinx-datetime",
+			"enumPropertyNaming" to "UPPERCASE",
+			"serializationLibrary" to "kotlinx_serialization"
+		)
+	)
+	globalProperties.set(
+		mapOf(
+			"models" to "",
+			"modelDocs" to "false"
+		)
+	)
+}
+
+tasks.named("compileKotlin") {
+	dependsOn("openApiGenerate")
 }
 
 // Таска создания пустого файла миграций
@@ -79,3 +108,4 @@ tasks.register<Exec>("addChangelog") {
 		}
 	}
 }
+
