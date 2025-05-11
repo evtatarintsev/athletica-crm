@@ -26,6 +26,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserSetting'
+    post:
+      description: Сохранить настройки по ключу.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSetting'
+      responses:
+        '200':
+          description: Настройки успешно сохранены
+  
+  /customers:
+    get:
+      description: Получить список клиентов организации
+      parameters:
+        - name: limit
+          description: Количество записей
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 10
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListResponse'
+                   
 components:
   schemas:
     UserSetting:
@@ -40,3 +71,42 @@ components:
       required:
         - key
         - value
+    
+    CustomerInList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        fullName:
+          type: string
+          example: "John Smith"
+        birthday:
+          type: string
+          format: date
+          example: "1990-01-01"
+
+      required:
+        - id
+        - fullName
+    
+    CustomerListResponse:
+      type: object
+      properties:
+        totalCount:
+          description: Всего записей
+          type: integer
+          example: 100
+        hasMore:
+          description: Есть ли еще клиенты
+          type: boolean
+          example: true
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerInList'
+      required:
+        - totalCount
+        - hasMore
+        - customers
