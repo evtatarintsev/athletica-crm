@@ -2,9 +2,6 @@ package ru.athletica.crm.db
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import liquibase.Liquibase
-import liquibase.database.jvm.JdbcConnection
-import liquibase.resource.ClassLoaderResourceAccessor
 import org.jetbrains.exposed.sql.Database
 import kotlin.getValue
 
@@ -27,12 +24,12 @@ object PostgresConfig {
     /**
      * Накатывает миграции.
      */
-    fun migrate(dataSource: HikariDataSource){
-        val liquibase = Liquibase(
-            "db/changelog.yaml",
-            ClassLoaderResourceAccessor(),
-            JdbcConnection(dataSource.connection)
-        )
-        liquibase.update()
-    }
+//    fun migrate(dataSource: HikariDataSource){
+//        val liquibase = Liquibase(
+//            "db/changelog.yaml",
+//            ClassLoaderResourceAccessor(),
+//            JdbcConnection(dataSource.connection)
+//        )
+//        liquibase.update()
+//    }
 }

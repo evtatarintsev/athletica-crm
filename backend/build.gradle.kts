@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream
 plugins {
 	kotlin("jvm") version "2.1.20"
 	kotlin("plugin.spring") version "2.1.20"
+	kotlin("plugin.serialization") version "2.1.20"
 	id("org.springframework.boot") version "3.4.5"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.openapi.generator") version "7.12.0"
@@ -22,12 +23,16 @@ repositories {
 }
 val exposedVersion: String by project
 val kotlinxCoroutinesVersion: String by project
-dependencies {
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-	implementation("ch.qos.logback:logback-classic:1.5.18")
+val springBootVersion: String by project
+val kotlinVersion: String by project
 
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
+dependencies {
+	implementation("ch.qos.logback:logback-classic:1.5.18")
+	implementation("org.slf4j:slf4j-api:2.0.17")
+
+	implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
+	implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
 	// exposed deps
 	implementation("org.jetbrains.exposed:exposed-core:${exposedVersion}")
@@ -35,7 +40,9 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:${exposedVersion}")
 	implementation("org.postgresql:postgresql:42.7.5")
 
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
 
 	// test deps
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -47,6 +54,11 @@ dependencies {
 kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xcontext-parameters")
+	}
+	sourceSets {
+		main {
+			kotlin.srcDir("${buildDir}/generated/src/main/kotlin")
+		}
 	}
 }
 
@@ -73,6 +85,7 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 			"modelDocs" to "false"
 		)
 	)
+	templateDir.set("${layout.projectDirectory}/openapi-generator-templates/out")
 }
 
 tasks.named("compileKotlin") {
