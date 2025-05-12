@@ -85,7 +85,6 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 			"modelDocs" to "false"
 		)
 	)
-	templateDir.set("${layout.projectDirectory}/openapi-generator-templates/out")
 }
 
 tasks.named("compileKotlin") {
