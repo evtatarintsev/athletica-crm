@@ -1,18 +1,38 @@
 package ru.athletica.crm.api
 
-import kotlinx.datetime.LocalDate
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import ru.athletica.api.schemas.CustomerInList
-import java.util.UUID
+import ru.athletica.api.schemas.CustomerListResponse
+import ru.athletica.crm.db.suspendTransaction
+import ru.athletica.crm.modules.customers.Customer
+import ru.athletica.crm.modules.customers.Customers
+
+data class GetCustomersParams(
+    val limit: Int = 10,
+    val offset: Int = 0
+)
+
 
 @RestController
-@RequestMapping("/customer")
-class CustomersList {
+@RequestMapping("/customers")
+class CustomersList(private val customers: Customers) {
 
     @GetMapping
-    fun getCustomers(): List<CustomerInList> {
-        return listOf(CustomerInList(id = UUID.randomUUID(), fullName = "ivan", birthday = LocalDate.parse("2022-01-01")))
+    suspend fun getCustomers(params: GetCustomersParams): CustomerListResponse = suspendTransaction {
+        val result = customers.list(Customers.ListRequest(params.limit, params.offset.toLong()))
+
+        return@suspendTransaction CustomerListResponse(
+            customers = result.customers.map { it.toCustomerInList() },
+            hasMore = params.offset + params.limit < result.totalCount,
+            totalCount = result.totalCount.toInt()
+        )
     }
 }
+
+fun Customer.toCustomerInList() = CustomerInList(
+    id = id.value,
+    fullName = fullName.value
+)

@@ -2,10 +2,34 @@ package ru.athletica.crm.modules.customers
 
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.selectAll
+import org.springframework.stereotype.Component
 
+
+@Component
 class Customers {
+    data class ListRequest(val limit: Int, val offset: Long)
+    data class ListResponse(val customers: List<Customer>, val totalCount: Long)
+
     context(_: Transaction)
-    fun byId(id: CustomerId) = CustomersSqlTable
+    fun list(request: ListRequest): ListResponse {
+        val customers = CustomersSqlTable
+            .selectAll()
+            .limit(request.limit)
+            .offset(request.offset)
+            .map {
+                Customer(
+                    CustomerId(it[CustomersSqlTable.id]),
+                    CustomerName(it[CustomersSqlTable.fullName])
+                )
+            }
+
+        val totalCount = CustomersSqlTable.selectAll().count()
+
+        return ListResponse(customers, totalCount)
+    }
+
+    context(_: Transaction)
+    fun byId(id: CustomerId): Customer = CustomersSqlTable
         .selectAll()
         .where { CustomersSqlTable.id.eq(id.value) }
         .map {

@@ -42,13 +42,9 @@ paths:
     get:
       description: Получить список клиентов организации
       parameters:
-        - name: limit
-          description: Количество записей
-          in: query
-          required: false
-          schema:
-            type: integer
-          example: 10
+        - $ref: '#/components/parameters/LimitParameter'
+        - $ref: '#/components/parameters/OffsetParameter'
+
       responses:
         '200':
           description: Успешный ответ
@@ -58,6 +54,26 @@ paths:
                 $ref: '#/components/schemas/CustomerListResponse'
                    
 components:
+  parameters:
+    LimitParameter:
+      name: limit
+      in: query
+      description: Количество записей
+      required: false
+      schema:
+        type: integer
+        default: 10
+        example: 10
+    OffsetParameter:
+      name: offset
+      in: query
+      description: Сдвиг от первой записи
+      required: false
+      schema:
+        type: integer
+        default: 0
+        example: 0
+    
   schemas:
     UserSetting:
       type: object
