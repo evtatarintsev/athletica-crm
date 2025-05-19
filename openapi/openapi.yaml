@@ -21,7 +21,7 @@ paths:
           example: "name"
       responses:
         '200':
-          description: User setting retrieved successfully
+          description: Настройки успешно получены.
           content:
             application/json:
               schema:

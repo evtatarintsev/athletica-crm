@@ -66,7 +66,7 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateKotlinApi") {
 	apiPackage.set("ru.athletica.api")
 	modelPackage.set("ru.athletica.api.schemas")
 	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
@@ -87,8 +87,22 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 	)
 }
 
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateNextjsClient") {
+	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
+	outputDir.set("${layout.projectDirectory}/../frontend/src/generated")
+	generatorName.set("typescript-fetch")
+	configOptions.set(
+		mapOf(
+			"supportsES6" to "true",
+			"npmName" to "@api/client",
+			"npmVersion" to "1.0.0"
+		)
+	)
+}
+
 tasks.named("compileKotlin") {
-	dependsOn("openApiGenerate")
+	dependsOn("generateKotlinApi")
+	dependsOn("generateNextjsClient")
 }
 
 // Таска создания пустого файла миграций
