@@ -89,13 +89,13 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
 
 tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateNextjsClient") {
 	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
-	outputDir.set("${layout.projectDirectory}/../frontend/src/generated")
+	outputDir.set("${layout.projectDirectory}/../frontend/api_client/")
 	generatorName.set("typescript-fetch")
 	configOptions.set(
 		mapOf(
 			"supportsES6" to "true",
-			"npmName" to "@api/client",
-			"npmVersion" to "1.0.0"
+			"npmName" to "@athletica/client",
+			"npmVersion" to "0.0.1"
 		)
 	)
 }

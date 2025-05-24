@@ -8,7 +8,7 @@ info:
     email: evtatarintsev@ya.ru
 
 paths:
-  /user-settings:
+  /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
     get:
       description: Получить настройки по ключу.
@@ -38,7 +38,7 @@ paths:
         '200':
           description: Настройки успешно сохранены
   
-  /customers:
+  /api/customers:
     get:
       description: Получить список клиентов организации
       parameters:

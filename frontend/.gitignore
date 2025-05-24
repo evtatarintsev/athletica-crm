@@ -43,4 +43,5 @@ yarn-error.log*
 
 # cache
 .cache/
-
+# генерируемый клиент
+api_client/

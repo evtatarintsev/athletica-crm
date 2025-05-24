@@ -1,6 +1,7 @@
+import { DefaultApi } from '@athletica/client';
 
 export interface IProduct {
-  id: number;
+  id: string;
   imageUrl: string;
   name: string;
   status: 'active' | 'inactive' | 'archived';
@@ -17,57 +18,26 @@ export async function getProducts(
   newOffset: number | null;
   totalProducts: number;
 }> {
-  const moreProducts: IProduct[] = [
-    {
-      id: 1,
-      imageUrl: "https://placehold.co/400x300/png",
-      name: "Premium Headphones",
-      status: "active",
-      price: 199.99,
-      stock: 50,
-      availableAt: new Date("2024-01-01")
-    },
-    {
-      id: 2,
-      imageUrl: "https://placehold.co/400x300/png",
-      name: "Wireless Mouse",
-      status: "active",
-      price: 49.99,
-      stock: 100,
-      availableAt: new Date("2024-01-15")
-    },
-    {
-      id: 3,
-      imageUrl: "https://placehold.co/400x300/png",
-      name: "Mechanical Keyboard",
-      status: "inactive",
-      price: 129.99,
-      stock: 25,
-      availableAt: new Date("2024-02-01")
-    },
-    {
-      id: 4,
-      imageUrl: "https://placehold.co/400x300/png",
-      name: "Gaming Monitor",
-      status: "active",
-      price: 299.99,
-      stock: 30,
-      availableAt: new Date("2024-01-20")
-    },
-    {
-      id: 5,
-      imageUrl: "https://placehold.co/400x300/png",
-      name: "USB-C Hub",
-      status: "archived",
-      price: 79.99,
-      stock: 0,
-      availableAt: new Date("2024-01-10")
-    }
-  ];
+  const api = new DefaultApi();
+  const response = await api.customersGet({
+    limit: 10,
+    offset: offset
+  });
+
+  // Map CustomerInList to IProduct
+  const products: IProduct[] = response.customers.map((customer, index) => ({
+    id: customer.id,
+    imageUrl: "https://placehold.co/400x300/png", // Default image
+    name: customer.fullName,
+    status: "active" as const, // Default status
+    price: 99.99, // Default price
+    stock: 10, // Default stock
+    availableAt: customer.birthday || new Date()
+  }));
 
   return {
-    products: moreProducts,
-    newOffset: null,
-    totalProducts: 5
+    products,
+    newOffset: response.hasMore ? offset + 10 : null,
+    totalProducts: response.totalCount
   };
 }

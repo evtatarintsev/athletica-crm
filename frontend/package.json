@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@athletica/client": "file:api_client",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
