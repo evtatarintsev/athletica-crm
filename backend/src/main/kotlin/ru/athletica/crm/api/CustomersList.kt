@@ -16,7 +16,7 @@ data class GetCustomersParams(
 
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/customers")
 class CustomersList(private val customers: Customers) {
 
     @GetMapping
