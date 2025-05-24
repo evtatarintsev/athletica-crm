@@ -19,7 +19,7 @@ export async function getProducts(
   totalProducts: number;
 }> {
   const api = new DefaultApi();
-  const response = await api.apiCustomersGet({
+  const response = await api.getCustomersList({
     limit: 10,
     offset: offset
   });
