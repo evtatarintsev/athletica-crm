@@ -3,7 +3,7 @@
 import {Table, TableBody, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {useState} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
-import {Product} from './product';
+import {CustomersTableRow} from './customers-table-row';
 import {useRouter} from 'next/navigation';
 import {ChevronLeft, ChevronRight, File} from 'lucide-react';
 import {Button, Chip, Stack} from "@mui/material";
@@ -76,6 +76,7 @@ export function CustomersTable({
                             <TableHead className="hidden md:table-cell">
                                 Группа
                             </TableHead>
+                            <TableHead className="hidden md:table-cell">Телефон</TableHead>
                             <TableHead className="hidden md:table-cell">ДР</TableHead>
                             <TableHead>
                                 <span className="sr-only">Действия</span>
@@ -84,9 +85,9 @@ export function CustomersTable({
                     </TableHeader>
                     <TableBody>
                         {customers
-                            .filter(product => activeFilter === 'all' || product.status === activeFilter)
-                            .map((product) => (
-                                <Product key={product.id} customer={product}/>
+                            .filter(customer => activeFilter === 'all' || customer.status === activeFilter)
+                            .map((customer) => (
+                                <CustomersTableRow key={customer.id} customer={customer}/>
                             ))}
                     </TableBody>
                 </Table>

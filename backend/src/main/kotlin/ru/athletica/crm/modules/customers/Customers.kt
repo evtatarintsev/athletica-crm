@@ -19,7 +19,8 @@ class Customers {
             .map {
                 Customer(
                     CustomerId(it[CustomersSqlTable.id]),
-                    CustomerName(it[CustomersSqlTable.fullName])
+                    CustomerName(it[CustomersSqlTable.fullName]),
+                    it[CustomersSqlTable.phone],
                 )
             }
 
@@ -35,7 +36,8 @@ class Customers {
         .map {
             Customer(
                 CustomerId(it[CustomersSqlTable.id]),
-                CustomerName(it[CustomersSqlTable.fullName])
+                CustomerName(it[CustomersSqlTable.fullName]),
+                null,
             )
         }.first()
 }

@@ -39,7 +39,7 @@ paths:
       responses:
         '200':
           description: Настройки успешно сохранены
-  
+
   /api/customers:
     get:
       operationId: getCustomersList
@@ -55,7 +55,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerListResponse'
-                   
+
 components:
   parameters:
     LimitParameter:
@@ -76,7 +76,7 @@ components:
         type: integer
         default: 0
         example: 0
-    
+
   schemas:
     UserSetting:
       type: object
@@ -90,7 +90,7 @@ components:
       required:
         - key
         - value
-    
+
     CustomerInList:
       type: object
       properties:
@@ -101,6 +101,9 @@ components:
         fullName:
           type: string
           example: "John Smith"
+        phone:
+          type: string
+          example: "+1 (555) 123-4567"
         birthday:
           type: string
           format: date
@@ -109,7 +112,7 @@ components:
       required:
         - id
         - fullName
-    
+
     CustomerListResponse:
       type: object
       properties:

@@ -11,6 +11,7 @@ import java.util.UUID
 object CustomersSqlTable : Table("customers") {
     val id: Column<UUID> = uuid("id")
     val fullName: Column<String> = varchar("full_name", length = 50)
+    val phone: Column<String?> = varchar("phone", length = 20).nullable()
 
     override val primaryKey = PrimaryKey(id, name = "PK_Customers_ID")
 }

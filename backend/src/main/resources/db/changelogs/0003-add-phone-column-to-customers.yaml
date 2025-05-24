@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0003
+      author: system
+      comment: Add phone column to customers table
+      changes:
+        - addColumn:
+            tableName: customers
+            columns:
+              - column:
+                  name: phone
+                  type: varchar(20)
+                  constraints:
+                    nullable: true
+
+      rollback:
+        - dropColumn:
+            tableName: customers
+            columnName: phone

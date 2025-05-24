@@ -8,7 +8,7 @@ class CustomerTest {
     @Test
     fun NewCustomer_ShoulsBeSavedInDb() = runDbTest {
         // Act
-        val customer = Customer(CustomerId(), "Ivan".toCustomerName())
+        val customer = Customer(CustomerId(), "Ivan".toCustomerName(), null)
 
         // Act
         customer.save()

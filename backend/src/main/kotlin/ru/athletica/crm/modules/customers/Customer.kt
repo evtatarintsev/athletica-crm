@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.insert
 class Customer(
     val id: CustomerId,
     val fullName: CustomerName,
+    val phone: String?,
 ) {
     /**
      * Сохраняет клиента в БД. Вызывать метод необходимо в контексте транзакции.
@@ -18,6 +19,7 @@ class Customer(
         CustomersSqlTable.insert {
             it[id] = this@Customer.id.value
             it[fullName] = this@Customer.fullName.value
+            it[phone] = this@Customer.phone
         }
     }
 }

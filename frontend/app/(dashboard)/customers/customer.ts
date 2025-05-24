@@ -10,6 +10,8 @@ export interface Customer {
     name: string;
     /** Состояние клиента  */
     status: 'active' | 'inactive' | 'archived';
+    /** Номер телефона клиента если указан, иначе null */
+    phone_no: string | null;
 
     price: number;
     stock: number;

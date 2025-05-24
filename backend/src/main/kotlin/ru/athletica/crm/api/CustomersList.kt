@@ -33,5 +33,6 @@ class CustomersList(private val customers: Customers) {
 
 fun Customer.toCustomerInList() = CustomerInList(
     id = id.value,
-    fullName = fullName.value
+    fullName = fullName.value,
+    phone = phone,
 )

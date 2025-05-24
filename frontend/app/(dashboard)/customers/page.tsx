@@ -72,6 +72,7 @@ async function getCustomers(search: string, offset: number): Promise<{
         name: customer.fullName,
         status: "active" as const,
         price: 99.99,
+        phone_no: customer.phone ?? null,
         stock: 10,
         availableAt: customer.birthday || new Date()
     }));

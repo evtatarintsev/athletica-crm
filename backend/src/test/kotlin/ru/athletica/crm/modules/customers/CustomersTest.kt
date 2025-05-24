@@ -12,10 +12,11 @@ class CustomersTest {
     @Test
     fun FindCustomerById_ShouldReturnCustomer_WhenItExists() = runDbTest {
         // Arrange
-        val expected = Customer(CustomerId(), "Ivan".toCustomerName())
+        val expected = Customer(CustomerId(), "Ivan".toCustomerName(), null)
         CustomersSqlTable.insert {
             it[id] = expected.id.value
             it[fullName] = expected.fullName.value
+            it[phone] = expected.phone
         }
 
         // Act

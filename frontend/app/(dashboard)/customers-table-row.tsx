@@ -13,7 +13,7 @@ import { deleteCustomer } from './actions';
 import Button from '@mui/material/Button';
 import {Customer} from "./customers/customer";
 
-export function Product({ customer }: { customer: Customer}) {
+export function CustomersTableRow({ customer }: { customer: Customer}) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -33,6 +33,7 @@ export function Product({ customer }: { customer: Customer}) {
       </TableCell>
       <TableCell className="hidden md:table-cell">{`$${customer.price}`}</TableCell>
       <TableCell className="hidden md:table-cell">{customer.stock}</TableCell>
+      <TableCell className="hidden md:table-cell">{customer.phone_no}</TableCell>
       <TableCell className="hidden md:table-cell">
         {customer.availableAt.toLocaleDateString("en-US")}
       </TableCell>
