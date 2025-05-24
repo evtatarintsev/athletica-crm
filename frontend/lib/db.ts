@@ -1,4 +1,5 @@
-import { DefaultApi } from '@athletica/client';
+import {Configuration, DefaultApi} from '@athletica/client';
+import {apiClient} from "@/lib/api-client";
 
 export interface IProduct {
   id: string;
@@ -18,13 +19,11 @@ export async function getProducts(
   newOffset: number | null;
   totalProducts: number;
 }> {
-  const api = new DefaultApi();
-  const response = await api.getCustomersList({
+  const response = await apiClient.getCustomersList({
     limit: 10,
     offset: offset
   });
 
-  // Map CustomerInList to IProduct
   const products: IProduct[] = response.customers.map((customer, index) => ({
     id: customer.id,
     imageUrl: "https://placehold.co/400x300/png", // Default image
