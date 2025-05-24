@@ -4,39 +4,36 @@ import {Table, TableBody, TableHead, TableHeader, TableRow} from '@/components/u
 import {useState} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Product} from './product';
-import {IProduct} from '@/lib/db';
 import {useRouter} from 'next/navigation';
 import {ChevronLeft, ChevronRight, File} from 'lucide-react';
 import {Button, Chip, Stack} from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
 import {SearchInput} from "./search";
+import {Customer} from "./customers/customer";
 
 type StatusFilter = 'all' | 'active' | 'inactive' | 'archived';
 
 export function CustomersTable({
-                                   products,
+                                   customers,
                                    offset,
-                                   totalProducts
+                                   totalCustomers
                                }: {
-    products: IProduct[];
+    customers: Customer[];
     offset: number;
-    totalProducts: number;
+    totalCustomers: number;
 }) {
     let router = useRouter();
     let productsPerPage = 5;
     const [activeFilter, setActiveFilter] = useState<StatusFilter>('all');
 
-    const handleFilterChange = (filter: StatusFilter) => {
-        setActiveFilter(filter);
-    };
 
     function prevPage() {
         router.back();
     }
 
     function nextPage() {
-        router.push(`/?offset=${offset}`, {scroll: false});
+        router.push(`?offset=${offset}`, {scroll: false});
     }
 
     return (
@@ -86,10 +83,10 @@ export function CustomersTable({
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {products
+                        {customers
                             .filter(product => activeFilter === 'all' || product.status === activeFilter)
                             .map((product) => (
-                                <Product key={product.id} product={product}/>
+                                <Product key={product.id} customer={product}/>
                             ))}
                     </TableBody>
                 </Table>
@@ -99,9 +96,9 @@ export function CustomersTable({
                     <div className="text-xs text-muted-foreground">
                         Показано{' '}
                         <strong>
-                            {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+                            {Math.max(0, Math.min(offset - productsPerPage, totalCustomers) + 1)}-{offset}
                         </strong>{' '}
-                        из <strong>{totalProducts}</strong> клиентов
+                        из <strong>{totalCustomers}</strong> клиентов
                     </div>
                     <div className="flex">
                         <Button
@@ -121,7 +118,7 @@ export function CustomersTable({
                             size="small"
                             type="submit"
                             className="hover:bg-accent hover:text-accent-foreground"
-                            disabled={offset + productsPerPage > totalProducts}
+                            disabled={offset + productsPerPage > totalCustomers}
                         >
                             Вперед
                             <ChevronRight className="ml-2 h-4 w-4"/>
