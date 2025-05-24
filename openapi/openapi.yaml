@@ -11,6 +11,7 @@ paths:
   /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
     get:
+      operationId: getUserSettings
       description: Получить настройки по ключу.
       parameters:
         - name: key
@@ -27,6 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserSetting'
     post:
+      operationId: setUserSettings
       description: Сохранить настройки по ключу.
       requestBody:
         required: true
@@ -40,6 +42,7 @@ paths:
   
   /api/customers:
     get:
+      operationId: getCustomersList
       description: Получить список клиентов организации
       parameters:
         - $ref: '#/components/parameters/LimitParameter'
