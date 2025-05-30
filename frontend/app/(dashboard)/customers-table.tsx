@@ -45,7 +45,15 @@ export function CustomersTable({
                         <FileDownloadIcon className="h-3.5 w-3.5"/>
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Выгрузить</span>
                     </Button>
-                    <Button variant="outlined" size="small" className="hidden md:block">Create</Button>
+                    <Button 
+                        variant="outlined" 
+                        size="small" 
+                        className="hidden md:block"
+                        onClick={() => router.push('/customers/add')}
+                    >
+                        <AddIcon className="h-3.5 w-3.5 mr-1"/>
+                        Добавить клиента
+                    </Button>
                 </div>
             </CardHeader>
             <CardContent>
