@@ -9,3 +9,4 @@
   - Kotlinx-serialization для сериализации
   - Kotlinx-datetime для работы с датой/временем
   - jetbrains.exposed в качестве DSL для SQL запросов
+- liquibase управление миграциями БД
