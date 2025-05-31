@@ -1,48 +1,36 @@
 'use client';
 
 import {CustomersTable} from "../customers-table";
-import {useEffect, useState, Suspense} from 'react';
+import {Suspense} from 'react';
 import {Spinner} from '@/components/icons';
 import {useSearchParams} from 'next/navigation';
-import {apiClient} from "@/lib/api-client";
 import {Customer} from "./customer";
+import useCustomerListSuspense from "@/lib/api-client/useCustomerListSuspense";
 
 function CustomersContent() {
     const searchParams = useSearchParams();
-    const search = searchParams.get('q') ?? '';
-    const offsetParam = searchParams.get('offset') ?? '0';
-    const [loading, setLoading] = useState(true);
-    const [productsData, setProductsData] = useState<{
-        customers: Customer[];
-        newOffset: number | null;
-        totalCustomers: number;
-    }>({
-        customers: [],
-        newOffset: 0,
-        totalCustomers: 0
-    });
+    // const search = searchParams.get('q') ?? '';
+    const customerPerPage = 10;
+    const offset = Number(searchParams.get('offset') ?? '0');
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            setLoading(true);
-            try {
-                const data = await getCustomers(search, Number(offsetParam));
-                setProductsData(data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const data = useCustomerListSuspense(customerPerPage, offset);
 
-        fetchProducts();
-    }, [search, offsetParam]);
+    const customers: Customer[] = data.customers.map(
+        customer => ({
+            id: customer.id,
+            imageUrl: "https://placehold.co/400x300/png",
+            name: customer.fullName,
+            status: "active",
+            phone_no: customer.phone,
+            birthday: customer.birthday
+        })
+    );
 
     return (
         <CustomersTable
-            customers={productsData.customers}
-            offset={productsData.newOffset ?? 0}
-            totalCustomers={productsData.totalCustomers}
+            customers={customers}
+            nextOffset={data.hasMore ? offset + 10 : 0}
+            totalCustomers={data.totalCount}
         />
     );
 }
@@ -53,28 +41,4 @@ export default function CustomersPage() {
             <CustomersContent/>
         </Suspense>
     );
-}
-
-
-async function getCustomers(search: string, offset: number): Promise<{
-    customers: Customer[];
-    newOffset: number | null;
-    totalCustomers: number;
-}> {
-    const {data} = await apiClient.getCustomersList(10, offset);
-
-    const customers: Customer[] = data.customers.map(customer => ({
-        id: customer.id,
-        imageUrl: "https://placehold.co/400x300/png",
-        name: customer.fullName,
-        status: "active",
-        phone_no: customer.phone,
-        birthday: customer.birthday
-    }));
-
-    return {
-        customers: customers,
-        newOffset: data.hasMore ? offset + 10 : null,
-        totalCustomers: data.totalCount
-    };
 }

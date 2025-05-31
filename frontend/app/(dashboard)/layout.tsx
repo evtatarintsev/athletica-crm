@@ -3,7 +3,6 @@ import {
   Home,
   LineChart,
   Package,
-  Package2,
   PanelLeft,
   Settings,
   ShoppingCart,
@@ -27,7 +26,7 @@ import {
 import { Analytics } from '@vercel/analytics/react';
 import { User } from './user';
 import { Logo } from '@/components/icons';
-import Providers from './providers';
+import Providers from '../providers';
 import { NavItem } from './nav-item';
 import { SearchInput } from './search';
 import {Button} from "@mui/material";

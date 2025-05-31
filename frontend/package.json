@@ -6,7 +6,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@athletica/client": "file:api_client",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
@@ -19,8 +18,8 @@
     "@types/node": "20.17.6",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
-    "@vercel/analytics": "^1.4.1",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.400.0",
@@ -30,11 +29,11 @@
     "prop-types": "^15.8.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "swr": "^2.3.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.7.2",
-    "axios": "^1.6.1"
+    "typescript": "5.7.2"
   },
   "prettier": {
     "arrowParens": "always",

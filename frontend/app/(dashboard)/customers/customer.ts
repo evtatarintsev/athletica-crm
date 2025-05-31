@@ -13,5 +13,5 @@ export interface Customer {
     /** Номер телефона клиента если указан, иначе null */
     phone_no?: string;
     /** День рождения клиента **/
-    birthday?: string;
+    birthday?: Date;
 }

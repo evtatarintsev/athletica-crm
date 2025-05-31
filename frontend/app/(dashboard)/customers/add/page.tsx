@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiClient } from '@/lib/api-client';
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 
 export default function AddCustomerPage() {
@@ -18,10 +17,10 @@ export default function AddCustomerPage() {
     setError(null);
 
     try {
-      const response = await apiClient.addCustomer({
-        fullName,
-        phone: phone || undefined
-      });
+      // const response = await apiClient.addCustomer({
+      //   fullName,
+      //   phone: phone || undefined
+      // });
 
       // Redirect to customers list on success
       router.push('/customers');

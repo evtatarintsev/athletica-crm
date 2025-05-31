@@ -1,21 +1,19 @@
 import './globals.css';
-
-import { Analytics } from '@vercel/analytics/react';
+import {SWRProvider} from "./providers";
 
 export const metadata = {
-  title: 'Athletica CRM',
-  description: 'CRM для спортивных организаций'
+    title: 'Athletica CRM',
+    description: 'CRM для спортивных организаций'
 };
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className="flex min-h-screen w-full flex-col">{children}</body>
-      <Analytics />
-    </html>
-  );
+export default function RootLayout({children}: { children: React.ReactNode; }) {
+    return (
+        <html lang="en">
+        <body className="flex min-h-screen w-full flex-col">
+        <SWRProvider>
+            {children}
+        </SWRProvider>
+        </body>
+        </html>
+    );
 }

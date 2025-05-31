@@ -1,4 +1,7 @@
-export default async function DashboardPage() {
+'use client';
+
+
+export default function DashboardPage() {
     return (
         <div></div>
     );

@@ -33,7 +33,7 @@ export function CustomersTableRow({ customer }: { customer: Customer}) {
       </TableCell>
       <TableCell className="hidden md:table-cell">{customer.phone_no}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {customer.birthday}
+        {customer.birthday?.toString()}
       </TableCell>
       <TableCell>
         <DropdownMenu>
