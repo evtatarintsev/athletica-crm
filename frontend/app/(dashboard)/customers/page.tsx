@@ -61,25 +61,20 @@ async function getCustomers(search: string, offset: number): Promise<{
     newOffset: number | null;
     totalCustomers: number;
 }> {
-    const response = await apiClient.getCustomersList({
-        limit: 10,
-        offset: offset
-    });
+    const {data} = await apiClient.getCustomersList(10, offset);
 
-    const customers: Customer[] = response.customers.map(customer => ({
+    const customers: Customer[] = data.customers.map(customer => ({
         id: customer.id,
-        imageUrl: "https://placehold.co/400x300/png", // Default image
+        imageUrl: "https://placehold.co/400x300/png",
         name: customer.fullName,
-        status: "active" as const,
-        price: 99.99,
-        phone_no: customer.phone ?? null,
-        stock: 10,
-        availableAt: customer.birthday || new Date()
+        status: "active",
+        phone_no: customer.phone,
+        birthday: customer.birthday
     }));
 
     return {
         customers: customers,
-        newOffset: response.hasMore ? offset + 10 : null,
-        totalCustomers: response.totalCount
+        newOffset: data.hasMore ? offset + 10 : null,
+        totalCustomers: data.totalCount
     };
 }

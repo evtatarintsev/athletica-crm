@@ -90,7 +90,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
 tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateNextjsClient") {
 	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
 	outputDir.set("${layout.projectDirectory}/../frontend/api_client/")
-	generatorName.set("typescript-fetch")
+	generatorName.set("typescript-axios")
 	configOptions.set(
 		mapOf(
 			"supportsES6" to "true",

@@ -80,10 +80,6 @@ export function CustomersTable({
                             </TableHead>
                             <TableHead>Имя</TableHead>
                             <TableHead>Статус</TableHead>
-                            <TableHead className="hidden md:table-cell">Баланс</TableHead>
-                            <TableHead className="hidden md:table-cell">
-                                Группа
-                            </TableHead>
                             <TableHead className="hidden md:table-cell">Телефон</TableHead>
                             <TableHead className="hidden md:table-cell">ДР</TableHead>
                             <TableHead>

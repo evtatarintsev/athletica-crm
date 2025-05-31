@@ -31,11 +31,9 @@ export function CustomersTableRow({ customer }: { customer: Customer}) {
           {customer.status}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{`$${customer.price}`}</TableCell>
-      <TableCell className="hidden md:table-cell">{customer.stock}</TableCell>
       <TableCell className="hidden md:table-cell">{customer.phone_no}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {customer.availableAt.toLocaleDateString("en-US")}
+        {customer.birthday}
       </TableCell>
       <TableCell>
         <DropdownMenu>
