@@ -6,7 +6,6 @@ plugins {
 	kotlin("plugin.serialization") version "2.1.20"
 	id("org.springframework.boot") version "3.4.5"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.openapi.generator") version "7.12.0"
 }
 
 group = "ru.athletica"
@@ -66,44 +65,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateKotlinApi") {
-	apiPackage.set("ru.athletica.api")
-	modelPackage.set("ru.athletica.api.schemas")
-	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
-	outputDir.set("${buildDir}/generated")
-	generatorName.set("kotlin")
-	configOptions.set(
-		mapOf(
-			"dateLibrary" to "kotlinx-datetime",
-			"enumPropertyNaming" to "UPPERCASE",
-			"serializationLibrary" to "kotlinx_serialization"
-		)
-	)
-	globalProperties.set(
-		mapOf(
-			"models" to "",
-			"modelDocs" to "false"
-		)
-	)
-}
-
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateNextjsClient") {
-	inputSpec.set("${layout.projectDirectory}/../openapi/openapi.yaml")
-	outputDir.set("${layout.projectDirectory}/../frontend/api_client/")
-	generatorName.set("typescript-axios")
-	configOptions.set(
-		mapOf(
-			"supportsES6" to "true",
-			"npmName" to "@athletica/client",
-			"npmVersion" to "0.0.1"
-		)
-	)
-}
-
-tasks.named("compileKotlin") {
-	dependsOn("generateKotlinApi")
-	dependsOn("generateNextjsClient")
-}
 
 // Таска создания пустого файла миграций
 tasks.register<Exec>("addChangelog") {

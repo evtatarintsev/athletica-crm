@@ -1,10 +1,10 @@
-package ru.athletica.crm.api
+package ru.athletica.crm.api.controllers
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import ru.athletica.api.schemas.CustomerInList
-import ru.athletica.api.schemas.CustomerListResponse
+import ru.athletica.crm.api.schemas.CustomerInList
+import ru.athletica.crm.api.schemas.CustomerListResponse
 import ru.athletica.crm.db.suspendTransaction
 import ru.athletica.crm.modules.customers.Customer
 import ru.athletica.crm.modules.customers.Customers
@@ -19,6 +19,7 @@ data class GetCustomersParams(
 @RequestMapping("/api/customers")
 class CustomersList(private val customers: Customers) {
 
+
     @GetMapping
     suspend fun getCustomers(params: GetCustomersParams): CustomerListResponse = suspendTransaction {
         val result = customers.list(Customers.ListRequest(params.limit, params.offset.toLong()))
@@ -29,10 +30,10 @@ class CustomersList(private val customers: Customers) {
             totalCount = result.totalCount.toInt()
         )
     }
-}
 
-fun Customer.toCustomerInList() = CustomerInList(
-    id = id.value,
-    fullName = fullName.value,
-    phone = phone,
-)
+    fun Customer.toCustomerInList() = CustomerInList(
+        id = id.value,
+        fullName = fullName.value,
+        phone = phone,
+    )
+}
