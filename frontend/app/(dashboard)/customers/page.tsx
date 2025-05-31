@@ -1,13 +1,13 @@
 'use client';
 
 import {CustomersTable} from "../customers-table";
-import {useEffect, useState} from 'react';
+import {useEffect, useState, Suspense} from 'react';
 import {Spinner} from '@/components/icons';
 import {useSearchParams} from 'next/navigation';
 import {apiClient} from "@/lib/api-client";
 import {Customer} from "./customer";
 
-export default function CustomersPage() {
+function CustomersContent() {
     const searchParams = useSearchParams();
     const search = searchParams.get('q') ?? '';
     const offsetParam = searchParams.get('offset') ?? '0';
@@ -39,19 +39,19 @@ export default function CustomersPage() {
     }, [search, offsetParam]);
 
     return (
-        <>
-            {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <Spinner/>
-                </div>
-            ) : (
-                <CustomersTable
-                    customers={productsData.customers}
-                    offset={productsData.newOffset ?? 0}
-                    totalCustomers={productsData.totalCustomers}
-                />
-            )}
-        </>
+        <CustomersTable
+            customers={productsData.customers}
+            offset={productsData.newOffset ?? 0}
+            totalCustomers={productsData.totalCustomers}
+        />
+    );
+}
+
+export default function CustomersPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center items-center h-64"><Spinner/></div>}>
+            <CustomersContent/>
+        </Suspense>
     );
 }
 
