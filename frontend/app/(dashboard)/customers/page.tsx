@@ -6,6 +6,7 @@ import {Spinner} from '@/components/icons';
 import {useSearchParams} from 'next/navigation';
 import {Customer} from "./customer";
 import useCustomerListSuspense from "@/lib/api-client/useCustomerListSuspense";
+import ErrorBoundary from "@/components/error-boundary";
 
 function CustomersContent() {
     const searchParams = useSearchParams();
@@ -37,8 +38,10 @@ function CustomersContent() {
 
 export default function CustomersPage() {
     return (
-        <Suspense fallback={<div className="flex justify-center items-center h-64"><Spinner/></div>}>
-            <CustomersContent/>
-        </Suspense>
+        <ErrorBoundary fallback={<div>Что-то пошло не так</div>}>
+            <Suspense fallback={<div className="flex justify-center items-center h-64"><Spinner/></div>}>
+                <CustomersContent/>
+            </Suspense>
+        </ErrorBoundary>
     );
 }
