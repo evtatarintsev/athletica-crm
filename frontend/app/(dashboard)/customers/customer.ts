@@ -1,5 +1,5 @@
 /**
- * Модель клиента в контектсте работы со списком клиентов.
+ * Модель клиента в контексте работы со списком клиентов.
  */
 export interface Customer {
     /** Уникальный UUID клиента */
@@ -11,9 +11,7 @@ export interface Customer {
     /** Состояние клиента  */
     status: 'active' | 'inactive' | 'archived';
     /** Номер телефона клиента если указан, иначе null */
-    phone_no: string | null;
-
-    price: number;
-    stock: number;
-    availableAt: Date;
+    phone_no?: string;
+    /** День рождения клиента **/
+    birthday?: string;
 }

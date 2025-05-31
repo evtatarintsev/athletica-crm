@@ -1,13 +1,13 @@
 'use client';
 
 import {CustomersTable} from "../customers-table";
-import {useEffect, useState} from 'react';
+import {useEffect, useState, Suspense} from 'react';
 import {Spinner} from '@/components/icons';
 import {useSearchParams} from 'next/navigation';
 import {apiClient} from "@/lib/api-client";
 import {Customer} from "./customer";
 
-export default function CustomersPage() {
+function CustomersContent() {
     const searchParams = useSearchParams();
     const search = searchParams.get('q') ?? '';
     const offsetParam = searchParams.get('offset') ?? '0';
@@ -39,19 +39,19 @@ export default function CustomersPage() {
     }, [search, offsetParam]);
 
     return (
-        <>
-            {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <Spinner/>
-                </div>
-            ) : (
-                <CustomersTable
-                    customers={productsData.customers}
-                    offset={productsData.newOffset ?? 0}
-                    totalCustomers={productsData.totalCustomers}
-                />
-            )}
-        </>
+        <CustomersTable
+            customers={productsData.customers}
+            offset={productsData.newOffset ?? 0}
+            totalCustomers={productsData.totalCustomers}
+        />
+    );
+}
+
+export default function CustomersPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center items-center h-64"><Spinner/></div>}>
+            <CustomersContent/>
+        </Suspense>
     );
 }
 
@@ -61,25 +61,20 @@ async function getCustomers(search: string, offset: number): Promise<{
     newOffset: number | null;
     totalCustomers: number;
 }> {
-    const response = await apiClient.getCustomersList({
-        limit: 10,
-        offset: offset
-    });
+    const {data} = await apiClient.getCustomersList(10, offset);
 
-    const customers: Customer[] = response.customers.map(customer => ({
+    const customers: Customer[] = data.customers.map(customer => ({
         id: customer.id,
-        imageUrl: "https://placehold.co/400x300/png", // Default image
+        imageUrl: "https://placehold.co/400x300/png",
         name: customer.fullName,
-        status: "active" as const,
-        price: 99.99,
-        phone_no: customer.phone ?? null,
-        stock: 10,
-        availableAt: customer.birthday || new Date()
+        status: "active",
+        phone_no: customer.phone,
+        birthday: customer.birthday
     }));
 
     return {
         customers: customers,
-        newOffset: response.hasMore ? offset + 10 : null,
-        totalCustomers: response.totalCount
+        newOffset: data.hasMore ? offset + 10 : null,
+        totalCustomers: data.totalCount
     };
 }

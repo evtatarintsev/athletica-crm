@@ -40,4 +40,16 @@ class Customers {
                 null,
             )
         }.first()
+
+    data class AddRequest(val fullName: String, val phone: String?)
+    data class AddResponse(val id: CustomerId, val fullName: CustomerName, val phone: String?)
+
+    context(_: Transaction)
+    fun add(request: AddRequest): AddResponse {
+        val id = CustomerId()
+        val fullName = CustomerName(request.fullName)
+        val customer = Customer(id, fullName, request.phone)
+        customer.save()
+        return AddResponse(id, fullName, request.phone)
+    }
 }

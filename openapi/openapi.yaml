@@ -56,6 +56,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerListResponse'
 
+  /api/customers/add:
+    post:
+      operationId: addCustomer
+      description: Добавить нового клиента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCustomerRequest'
+      responses:
+        '200':
+          description: Клиент успешно добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddCustomerResponse'
+
 components:
   parameters:
     LimitParameter:
@@ -132,3 +150,32 @@ components:
         - totalCount
         - hasMore
         - customers
+
+    AddCustomerRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: "John Smith"
+        phone:
+          type: string
+          example: "+1 (555) 123-4567"
+      required:
+        - fullName
+
+    AddCustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        fullName:
+          type: string
+          example: "John Smith"
+        phone:
+          type: string
+          example: "+1 (555) 123-4567"
+      required:
+        - id
+        - fullName
