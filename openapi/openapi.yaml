@@ -74,6 +74,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/AddCustomerResponse'
 
+  /api/customers/{id}:
+    get:
+      operationId: getCustomerDetails
+      description: Получить детальную информацию о клиенте
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDetails'
+
 components:
   parameters:
     LimitParameter:
@@ -176,6 +196,36 @@ components:
         phone:
           type: string
           example: "+1 (555) 123-4567"
+      required:
+        - id
+        - fullName
+
+    CustomerDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        fullName:
+          type: string
+          example: "John Smith"
+        phone:
+          type: string
+          example: "+1 (555) 123-4567"
+        birthday:
+          type: string
+          format: date
+          example: "1990-01-01"
+        email:
+          type: string
+          example: "john.smith@example.com"
+        address:
+          type: string
+          example: "123 Main St, Anytown, USA"
+        notes:
+          type: string
+          example: "Regular customer, prefers evening appointments"
       required:
         - id
         - fullName

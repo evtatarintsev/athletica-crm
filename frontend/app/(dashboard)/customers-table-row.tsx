@@ -12,6 +12,7 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { deleteCustomer } from './actions';
 import Button from '@mui/material/Button';
 import {Customer} from "./customers/customer";
+import Link from 'next/link';
 
 export function CustomersTableRow({ customer }: { customer: Customer}) {
   return (
@@ -25,7 +26,11 @@ export function CustomersTableRow({ customer }: { customer: Customer}) {
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{customer.name}</TableCell>
+      <TableCell className="font-medium">
+        <Link href={`/customers/${customer.id}`} className="hover:underline text-blue-600">
+          {customer.name}
+        </Link>
+      </TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {customer.status}
