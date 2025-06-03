@@ -12,7 +12,7 @@ class Customer(
     val phone: String?,
 ) {
     /**
-     * Сохраняет клиента в БД. Вызывать метод необходимо в контексте транзакции.
+     * Сохраняет клиента в БД.
      */
     context(_: Transaction)
     fun save() {
