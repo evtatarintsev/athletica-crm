@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Configuration, DefaultApi} from '../api_client';
+import {Configuration, DefaultApi} from 'api_client';
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
