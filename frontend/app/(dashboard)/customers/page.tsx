@@ -23,7 +23,7 @@ function CustomersContent() {
             name: customer.fullName,
             status: "active",
             phone_no: customer.phone,
-            birthday: customer.birthday
+            birthday: customer.birthday ? new Date(customer.birthday) : undefined
         })
     );
 
