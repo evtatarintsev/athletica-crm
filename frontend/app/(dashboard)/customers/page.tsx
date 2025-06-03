@@ -5,7 +5,7 @@ import {Suspense} from 'react';
 import {Spinner} from '@/components/icons';
 import {useSearchParams} from 'next/navigation';
 import {Customer} from "./customer";
-import useCustomerListSuspense from "@/lib/api-client/useCustomerListSuspense";
+import useCustomerListSuspense from "@/lib/swr/useCustomerListSuspense";
 import ErrorBoundary from "@/components/error-boundary";
 
 function CustomersContent() {
