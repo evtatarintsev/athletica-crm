@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0004
+      author: evtatarintsev@ya.ru
+      comment: "Add organizations table"
+      changes:
+        - createTable:
+            tableName: organizations
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_Organizations_ID
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: organizations

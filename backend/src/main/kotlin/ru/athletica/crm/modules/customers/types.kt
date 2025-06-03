@@ -2,7 +2,9 @@ package ru.athletica.crm.modules.customers
 
 import java.util.UUID
 
-
+/**
+ * Id клиента.
+ */
 @JvmInline
 value class CustomerId(val value: UUID){
     /**
@@ -11,6 +13,10 @@ value class CustomerId(val value: UUID){
     constructor() : this(UUID.randomUUID())
 }
 
+
+/**
+ * Имя клиента.
+ */
 @JvmInline
 value class CustomerName(val value: String)
 
