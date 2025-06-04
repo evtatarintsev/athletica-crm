@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0005
+      author: evtatarintsev@ya.ru
+      comment: "Add auth_users table"
+      changes:
+          - createTable:
+                tableName: auth_users
+                columns:
+                    - column:
+                          name: id
+                          type: uuid
+                          constraints:
+                              nullable: false
+                    - column:
+                          name: organization_id
+                          type: uuid
+                          constraints:
+                              nullable: false
+                    - column:
+                          name: created_at
+                          type: timestamp
+                          constraints:
+                              nullable: false
+                    - column:
+                          name: login
+                          type: varchar(50)
+                          constraints:
+                              nullable: false
+                    - column:
+                          name: password
+                          type: varchar(255)
+                          constraints:
+                              nullable: false
+          - addPrimaryKey:
+                tableName: auth_users
+                columnNames: login, organization_id
+                constraintName: PK_login_organization_id
+          - addForeignKeyConstraint:
+                baseTableName: auth_users
+                baseColumnNames: organization_id
+                referencedTableName: organizations
+                referencedColumnNames: id
+                constraintName: FK_auth_users_organization
+      rollback:
+          - dropTable:
+                tableName: auth_users
+

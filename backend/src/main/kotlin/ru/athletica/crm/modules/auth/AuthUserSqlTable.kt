@@ -8,7 +8,7 @@ import ru.athletica.crm.modules.organizations.OrganizationsSqlTable
 /**
  * Таблица для хранения клиентов.
  */
-object AuthUsersSqlTable : Table("customers") {
+object AuthUsersSqlTable : Table("auth_users") {
     val id = uuid("id")
     val organizationId = uuid("organization_id").references(OrganizationsSqlTable.id)
     val createdAt = datetime("created_at")
