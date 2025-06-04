@@ -8,6 +8,24 @@ info:
     email: evtatarintsev@ya.ru
 
 paths:
+  /api/login:
+    post:
+      operationId: login
+      description: Получение токена авторизации
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  
   /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
     get:
@@ -116,6 +134,27 @@ components:
         example: 0
 
   schemas:
+    LoginRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          example: "user@example.com"
+        password:
+          type: string
+          example: "password123"
+      required:
+        - login
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      required:
+        - token
     UserSetting:
       type: object
       properties:
