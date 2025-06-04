@@ -37,6 +37,7 @@ dependencies {
 	// exposed deps
 	implementation("org.jetbrains.exposed:exposed-core:${exposedVersion}")
 	implementation("org.jetbrains.exposed:exposed-json:${exposedVersion}")
+	implementation("org.jetbrains.exposed:exposed-kotlin-datetime:${exposedVersion}")
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:${exposedVersion}")
 	implementation("org.postgresql:postgresql:42.7.5")
 

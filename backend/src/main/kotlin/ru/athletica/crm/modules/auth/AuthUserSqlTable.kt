@@ -1,0 +1,20 @@
+package ru.athletica.crm.modules.auth
+
+
+import org.jetbrains.exposed.v1.core.Table
+import org.jetbrains.exposed.v1.datetime.datetime
+import ru.athletica.crm.modules.organizations.OrganizationsSqlTable
+
+/**
+ * Таблица для хранения клиентов.
+ */
+object AuthUsersSqlTable : Table("customers") {
+    val id = uuid("id")
+    val organizationId = uuid("organization_id").references(OrganizationsSqlTable.id)
+    val createdAt = datetime("created_at")
+
+    val login = varchar("login", length = 50).uniqueIndex()
+    val password = varchar("password", length = 255)
+
+    override val primaryKey = PrimaryKey(login, organizationId, name = "PK_login_organization_id")
+}
