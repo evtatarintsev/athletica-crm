@@ -11,11 +11,11 @@ import java.util.*
 
 @Service
 class JwtTokenService(
-    @Value("\${jwt.secret:defaultSecretKey}") private val secret: String,
     @Value("\${jwt.expiration:3600}") private val expiration: Long,
     @Value("\${jwt.refresh-expiration:86400}") private val refreshExpiration: Long
 ) {
-    private val key: Key = Keys.hmacShaKeyFor(secret.toByteArray())
+    // Используем Keys.secretKeyFor для создания ключа достаточного размера для алгоритма HS512
+    private val key: Key = Keys.secretKeyFor(SignatureAlgorithm.HS512)
 
     /**
      * Generate a short-lived authentication token
