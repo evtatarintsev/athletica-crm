@@ -26,6 +26,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
 
+  /api/auth/refresh-token:
+    post:
+      operationId: refreshToken
+      description: Обновление токена авторизации
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token refresh successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
   /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
     get:
@@ -161,6 +179,14 @@ components:
       required:
         - token
         - refreshToken
+
+    RefreshTokenRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          description: "Refresh token for obtaining new auth tokens"
     UserSetting:
       type: object
       properties:
