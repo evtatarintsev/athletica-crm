@@ -1,4 +1,4 @@
-package ru.athletica.crm.api
+package ru.athletica.crm.api.customers
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

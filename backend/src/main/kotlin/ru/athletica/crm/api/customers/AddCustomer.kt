@@ -1,4 +1,4 @@
-package ru.athletica.crm.api
+package ru.athletica.crm.api.customers
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
