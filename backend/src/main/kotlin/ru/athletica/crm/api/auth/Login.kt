@@ -14,7 +14,7 @@ import ru.athletica.crm.db.suspendTransaction
 import ru.athletica.crm.security.JwtTokenService
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api/auth/login")
 class Login(private val jwtTokenService: JwtTokenService) {
 
     // In a real application, this would be replaced with a database lookup

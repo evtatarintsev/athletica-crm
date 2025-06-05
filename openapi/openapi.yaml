@@ -8,7 +8,7 @@ info:
     email: evtatarintsev@ya.ru
 
 paths:
-  /api/login:
+  /api/auth/login:
     post:
       operationId: login
       description: Получение токена авторизации
@@ -43,6 +43,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+
+  /api/auth/logout:
+    post:
+      operationId: logout
+      description: Выход из системы
+      responses:
+        '200':
+          description: Logout successful
 
   /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
