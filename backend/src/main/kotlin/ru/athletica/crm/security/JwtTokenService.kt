@@ -61,12 +61,8 @@ class JwtTokenService(
         return try {
             val claims = getAllClaimsFromToken(token)
             val isValid = !claims.expiration.before(Date())
-            if (!isValid) {
-                println("[DEBUG] Token validation failed: Token expired")
-            }
             isValid
         } catch (e: Exception) {
-            println("[DEBUG] Token validation failed: ${e.message}")
             false
         }
     }
