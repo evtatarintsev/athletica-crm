@@ -1,11 +1,14 @@
 package ru.athletica.crm.api
 
+import org.springframework.http.HttpCookie
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseCookie
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.server.ServerWebExchange
 import ru.athletica.api.schemas.LoginRequest
 import ru.athletica.api.schemas.LoginResponse
 import ru.athletica.crm.db.suspendTransaction
@@ -23,7 +26,7 @@ class Login(private val jwtTokenService: JwtTokenService) {
     )
 
     @PostMapping
-    suspend fun login(@RequestBody request: LoginRequest): LoginResponse = suspendTransaction {
+    suspend fun login(@RequestBody request: LoginRequest, exchange: ServerWebExchange): LoginResponse = suspendTransaction {
         // Validate credentials
         if (!validUsers.containsKey(request.login) || validUsers[request.login] != request.password) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials")
@@ -32,6 +35,16 @@ class Login(private val jwtTokenService: JwtTokenService) {
         // Generate tokens
         val token = jwtTokenService.generateToken(request.login)
         val refreshToken = jwtTokenService.generateRefreshToken(request.login)
+
+        // Set refresh token as a cookie
+        val cookie = ResponseCookie.from("refresh_token", refreshToken)
+            .path("/")
+            .httpOnly(true)
+            .maxAge(0) // As specified in the issue description
+            .secure(true)
+            .sameSite("Strict")
+            .build()
+        exchange.response.cookies.add("refresh_token", cookie)
 
         LoginResponse(token = token, refreshToken = refreshToken)
     }
