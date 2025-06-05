@@ -25,7 +25,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
-  
+
   /api/user-settings:
     description: Пользовательские настройки представляют собой key/value хранилище для каждого пользователя.
     get:
@@ -153,8 +153,14 @@ components:
         token:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          description: "Short-lived authentication bearer token"
+        refreshToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          description: "Long-lived refresh token for obtaining new auth tokens"
       required:
         - token
+        - refreshToken
     UserSetting:
       type: object
       properties:

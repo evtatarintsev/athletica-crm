@@ -1,1 +1,5 @@
-# Junie guidelines for development
+# Junie guidelines для разработки
+
+
+- для комментариев и документации используй русский язык
+
