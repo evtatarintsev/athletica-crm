@@ -1,6 +1,5 @@
 package ru.athletica.crm.api
 
-import org.springframework.http.HttpCookie
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.web.bind.annotation.PostMapping
@@ -32,19 +31,26 @@ class Login(private val jwtTokenService: JwtTokenService) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials")
         }
 
-        // Generate tokens
         val token = jwtTokenService.generateToken(request.login)
         val refreshToken = jwtTokenService.generateRefreshToken(request.login)
 
-        // Set refresh token as a cookie
-        val cookie = ResponseCookie.from("refresh_token", refreshToken)
+        val refreshCookie = ResponseCookie.from("refresh_token", refreshToken)
             .path("/")
             .httpOnly(true)
-            .maxAge(0) // As specified in the issue description
+            .maxAge(jwtTokenService.refreshExpiration)
             .secure(true)
             .sameSite("Strict")
             .build()
-        exchange.response.cookies.add("refresh_token", cookie)
+        exchange.response.cookies.add("refresh_token", refreshCookie)
+
+        val accessCookie = ResponseCookie.from("refresh_token", refreshToken)
+            .path("/")
+            .httpOnly(true)
+            .maxAge(jwtTokenService.expiration)
+            .secure(true)
+            .sameSite("Strict")
+            .build()
+        exchange.response.cookies.add("access_token", accessCookie)
 
         LoginResponse(token = token, refreshToken = refreshToken)
     }

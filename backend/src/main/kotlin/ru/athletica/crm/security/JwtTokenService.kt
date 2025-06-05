@@ -13,8 +13,8 @@ import java.security.MessageDigest
 
 @Service
 class JwtTokenService(
-    @Value("\${jwt.expiration:3600}") private val expiration: Long,
-    @Value("\${jwt.refresh-expiration:86400}") private val refreshExpiration: Long,
+    @Value("\${jwt.expiration:3600}") val expiration: Long,
+    @Value("\${jwt.refresh-expiration:86400}") val refreshExpiration: Long,
     @Value("\${jwt.secret:athleticaSecretKeyWithAtLeast32BytesLength}") private val secret: String
 ) {
     // Используем фиксированный ключ для алгоритма HS512
