@@ -8,14 +8,18 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.security.Key
 import java.util.*
+import javax.crypto.spec.SecretKeySpec
+import java.security.MessageDigest
 
 @Service
 class JwtTokenService(
     @Value("\${jwt.expiration:3600}") private val expiration: Long,
-    @Value("\${jwt.refresh-expiration:86400}") private val refreshExpiration: Long
+    @Value("\${jwt.refresh-expiration:86400}") private val refreshExpiration: Long,
+    @Value("\${jwt.secret:athleticaSecretKeyWithAtLeast32BytesLength}") private val secret: String
 ) {
-    // Используем Keys.secretKeyFor для создания ключа достаточного размера для алгоритма HS512
-    private val key: Key = Keys.secretKeyFor(SignatureAlgorithm.HS512)
+    // Используем фиксированный ключ для алгоритма HS512
+    // Для HS512 требуется ключ размером не менее 512 бит
+    private val key: Key = generateKey(secret)
 
     /**
      * Generate a short-lived authentication token
@@ -56,8 +60,13 @@ class JwtTokenService(
     fun validateToken(token: String): Boolean {
         return try {
             val claims = getAllClaimsFromToken(token)
-            !claims.expiration.before(Date())
+            val isValid = !claims.expiration.before(Date())
+            if (!isValid) {
+                println("[DEBUG] Token validation failed: Token expired")
+            }
+            isValid
         } catch (e: Exception) {
+            println("[DEBUG] Token validation failed: ${e.message}")
             false
         }
     }
@@ -77,5 +86,17 @@ class JwtTokenService(
             .build()
             .parseClaimsJws(token)
             .body
+    }
+
+    /**
+     * Генерирует ключ для подписи JWT токенов на основе секрета
+     * Для алгоритма HS512 требуется ключ размером не менее 512 бит (64 байта)
+     */
+    private fun generateKey(secret: String): Key {
+        // Используем SHA-512 для получения 64-байтового хеша из секрета
+        val md = MessageDigest.getInstance("SHA-512")
+        val keyBytes = md.digest(secret.toByteArray())
+        // Создаем ключ для алгоритма HS512
+        return SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.jcaName)
     }
 }
