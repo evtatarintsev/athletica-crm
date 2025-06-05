@@ -23,11 +23,21 @@ class JwtAuthenticationFilter(private val jwtTokenService: JwtTokenService) : We
             return chain.filter(exchange)
         }
 
+        // First try to get token from Authorization header
         val authHeader = exchange.request.headers.getFirst("Authorization")
+        var token: String? = null
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            val token = authHeader.substring(7)
+            token = authHeader.substring(7)
+        } else {
+            // If no Authorization header, try to get token from cookie
+            val cookies = exchange.request.cookies["access_token"]
+            if (!cookies.isNullOrEmpty()) {
+                token = cookies[0].value
+            }
+        }
 
+        if (token != null) {
             val isValid = jwtTokenService.validateToken(token)
 
             if (isValid) {

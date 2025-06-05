@@ -43,7 +43,7 @@ class Login(private val jwtTokenService: JwtTokenService) {
             .build()
         exchange.response.cookies.add("refresh_token", refreshCookie)
 
-        val accessCookie = ResponseCookie.from("refresh_token", refreshToken)
+        val accessCookie = ResponseCookie.from("access_token", token)
             .path("/")
             .httpOnly(true)
             .maxAge(jwtTokenService.expiration)

@@ -26,7 +26,6 @@ export default function AddCustomerPage() {
       // Redirect to customers list on success
       router.push('/customers');
     } catch (err) {
-      console.error('Error adding customer:', err);
       setError('Failed to add customer. Please try again.');
     } finally {
       setLoading(false);

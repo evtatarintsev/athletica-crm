@@ -27,21 +27,14 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await apiClient.login({
+      await apiClient.login({
         login: values.login,
         password: values.password
       });
 
-      // Сохраняем токены в localStorage (только на клиенте)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('jwt', response.data.token);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-      }
-
       // Перенаправляем на главную страницу
       router.push('/');
     } catch (err) {
-      console.error('Login error:', err);
       setError('Неверный логин или пароль');
     } finally {
       setIsLoading(false);
