@@ -7,6 +7,16 @@ import {CustomerListResponse} from "api_client";
  */
 export default function useCustomerListSuspense(limit: number, offset: number): CustomerListResponse {
     const fetcher = () => apiClient.getCustomersList(limit, offset);
-    const {data} = useSWR(`getCustomersList`, fetcher, {suspense: true});
+    const fallbackData = {
+        data: {
+            customers: [],
+            hasMore: false,
+            totalCount: 0
+        }
+    };
+    const {data} = useSWR("getCustomersList", fetcher, {
+        suspense: true,
+        fallback: {"getCustomersList": fallbackData}
+    });
     return data.data as CustomerListResponse;
 }
