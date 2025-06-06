@@ -8,6 +8,7 @@ import {
     ShoppingCart,
     Users2
 } from 'lucide-react';
+import { ClientOnly } from '@/components/client-only';
 
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import {
@@ -103,10 +104,15 @@ function MobileNav() {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button size="small" variant="outlined" className="hidden sm:block">
-                    <PanelLeft className="h-5 w-5"/>
-                    <span className="sr-only">Toggle Menu</span>
-                </Button>
+                {/* Use ClientOnly to ensure the MUI Button is only rendered on the client side */}
+                <ClientOnly>
+                    <div className="hidden sm:block">
+                        <Button size="small" variant="outlined">
+                            <PanelLeft className="h-5 w-5"/>
+                            <span className="sr-only">Toggle Menu</span>
+                        </Button>
+                    </div>
+                </ClientOnly>
             </SheetTrigger>
             <SheetContent side="left" className="sm:max-w-xs">
                 <nav className="grid gap-6 text-lg font-medium">
