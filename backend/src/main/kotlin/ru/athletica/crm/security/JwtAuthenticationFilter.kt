@@ -19,7 +19,7 @@ class JwtAuthenticationFilter(private val jwtTokenService: JwtTokenService) : We
         val path = exchange.request.path.value()
 
         // Skip authentication for login endpoint
-        if (path.startsWith("/api/login")) {
+        if (path.startsWith("/api/auth")) {
             return chain.filter(exchange)
         }
 
